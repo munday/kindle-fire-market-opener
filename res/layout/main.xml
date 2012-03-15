@@ -4,5 +4,11 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <ImageView 
+        android:contentDescription="@string/app_name"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_launcher"/>
     
 </LinearLayout>

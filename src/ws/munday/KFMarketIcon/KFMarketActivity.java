@@ -1,6 +1,8 @@
 package ws.munday.KFMarketIcon;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,25 +17,31 @@ public class KFMarketActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
-        
-        if(isCallable(LaunchIntent)){
-        	startActivity( LaunchIntent );
+	}
+
+	@Override
+	protected void onStart() {
+		final Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
+		if(isCallable(LaunchIntent)){
+			
+        	new Timer().schedule(new TimerTask() {
+    			@Override
+    			public void run() {
+    				startActivity(LaunchIntent);
+    				finish();
+    			}
+    		}, 100);
+    	
         }else{
-        	Toast t = Toast.makeText(this, "Could not find the Play Store, do you have it installed?", Toast.LENGTH_LONG);
+        	Toast t = Toast.makeText(this, R.string.no_store, Toast.LENGTH_LONG);
             t.setGravity(Gravity.CENTER, 0, 0);
             t.show();
-        }    
-    }
-    
-	@Override
-	protected void onResume() {
-        finish();
-        super.onResume();
+        }
+
+        super.onStart();
 	}
 	
-    private boolean isCallable(Intent intent) {
+	private boolean isCallable(Intent intent) {
 	    List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 	    return list.size() > 0;
     }
