@@ -16,33 +16,29 @@ public class KFMarketActivity extends Activity {
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				launchMarket();
+				finish();
+			}
+		}, 100);
+		super.onCreate(savedInstanceState);
 	}
 
-	@Override
-	protected void onStart() {
-		final Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
-		if(isCallable(LaunchIntent)){
-			
-        	new Timer().schedule(new TimerTask() {
-    			@Override
-    			public void run() {
-    				startActivity(LaunchIntent);
-    				finish();
-    			}
-    		}, 100);
-    	
-        }else{
-        	Toast t = Toast.makeText(this, R.string.no_store, Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER, 0, 0);
-            t.show();
-        }
-
-        super.onStart();
-	}
-	
 	private boolean isCallable(Intent intent) {
 	    List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 	    return list.size() > 0;
     }
+	
+	private void launchMarket(){
+		final Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
+		if(isCallable(LaunchIntent)){
+			startActivity(LaunchIntent);
+    	}else{
+        	Toast t = Toast.makeText(this, R.string.no_store, Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER, 0, 0);
+            t.show();
+        }
+	}
 }
