@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class KFMarketActivity extends Activity {
     
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
@@ -27,18 +27,18 @@ public class KFMarketActivity extends Activity {
 	}
 
 	private boolean isCallable(Intent intent) {
-	    List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-	    return list.size() > 0;
-    }
+		List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+		return list.size() > 0;
+	}
 	
 	private void launchMarket(){
 		final Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
 		if(isCallable(LaunchIntent)){
 			startActivity(LaunchIntent);
-    	}else{
-        	Toast t = Toast.makeText(this, R.string.no_store, Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER, 0, 0);
-            t.show();
-        }
+		}else{
+			Toast t = Toast.makeText(this, R.string.no_store, Toast.LENGTH_LONG);
+			t.setGravity(Gravity.CENTER, 0, 0);
+			t.show();
+		}
 	}
 }
